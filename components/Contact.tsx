@@ -108,7 +108,7 @@ export default function Contact() {
           <div className="flex flex-col gap-4">
             {/* Gmail Button */}
             <a
-              href="mailto:disha.developer@gmail.com"
+              href="mailto:disha3004singh@gmail.com"
               className="bg-rose-300 text-black border-4 border-black px-6 py-4 font-black uppercase tracking-wider text-sm md:text-base shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center justify-between gap-4 group cursor-pointer"
             >
               <span>Send an Email</span>
@@ -130,7 +130,7 @@ export default function Contact() {
 
             {/* WhatsApp Button */}
             <a
-              href="https://wa.me/919999999999"
+              href="https://wa.me/917389519456"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-emerald-300 text-black border-4 border-black px-6 py-4 font-black uppercase tracking-wider text-sm md:text-base shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center justify-between gap-4 group cursor-pointer"
