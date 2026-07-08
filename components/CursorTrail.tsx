@@ -25,23 +25,17 @@ export default function CursorTrail() {
   const isCoolModeRef = useRef(false);
 
   useEffect(() => {
-    // Disable completely on small screens (mobile/tablets)
-    if (window.innerWidth < 768) return;
+    const isTouch = 
+      "ontouchstart" in window ||
+      navigator.maxTouchPoints > 0 ||
+      // @ts-ignore
+      navigator.msMaxTouchPoints > 0;
+    
+    const isDesktop = window.innerWidth >= 768 && !isTouch;
 
-    // Only enable on desktop devices with a mouse
-    const isTouchDevice = () => {
-      return (
-        "ontouchstart" in window ||
-        navigator.maxTouchPoints > 0 ||
-        // @ts-ignore
-        navigator.msMaxTouchPoints > 0
-      );
-    };
-
-    if (isTouchDevice()) return;
-
-    // Add class for custom pink cursor
-    document.body.classList.add("custom-cursor-pink");
+    if (isDesktop) {
+      document.body.classList.add("custom-cursor-pink");
+    }
 
     const particles = particlesRef.current;
     let nextParticleIndex = 0;
@@ -59,6 +53,16 @@ export default function CursorTrail() {
             p.el.style.transform = "translate(-100px, -100px)";
           }
         });
+
+        // For mobile/tablet: place the lens in the center of the screen initially
+        if (!isDesktop && lensRef.current) {
+          const centerX = window.innerWidth / 2;
+          const centerY = window.innerHeight / 2;
+          coords.current.x = centerX;
+          coords.current.y = centerY;
+          lensRef.current.style.transform = `translate3d(${centerX - 110}px, ${centerY - 110}px, 0)`;
+          lensRef.current.style.opacity = "1";
+        }
       } else {
         // If turning cool mode OFF: hide the lens immediately
         if (lensRef.current) {
@@ -108,7 +112,19 @@ export default function CursorTrail() {
       }
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    if (isDesktop) {
+      window.addEventListener("mousemove", handleMouseMove);
+    }
+
+    // Touch events for mobile/tablet to drag the lens around
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isCoolModeRef.current || e.touches.length === 0) return;
+      coords.current.x = e.touches[0].clientX;
+      coords.current.y = e.touches[0].clientY;
+    };
+
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+    window.addEventListener("touchstart", handleTouchMove, { passive: true });
 
     let animationFrameId: number;
 
@@ -130,8 +146,8 @@ export default function CursorTrail() {
         }
       }
 
-      // If cool mode is active, we don't update particles
-      if (!isCoolModeRef.current) {
+      // If cool mode is active or not desktop, we don't update particles
+      if (!isCoolModeRef.current && isDesktop) {
         particles.forEach((p) => {
           if (!p.active || !p.el) return;
 
@@ -170,6 +186,8 @@ export default function CursorTrail() {
     return () => {
       document.body.classList.remove("custom-cursor-pink");
       window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchstart", handleTouchMove);
       window.removeEventListener("toggle-cool-mode", handleToggle);
       cancelAnimationFrame(animationFrameId);
     };
@@ -192,7 +210,7 @@ export default function CursorTrail() {
       {/* Spyglass / Flashlight Dark Lens */}
       <div
         ref={lensRef}
-        className="absolute left-0 top-0 rounded-full border-4 border-black shadow-[0_0_0_3px_#fb7185] pointer-events-none hidden md:block"
+        className="absolute left-0 top-0 rounded-full border-4 border-black shadow-[0_0_0_3px_#fb7185] pointer-events-none block"
         style={{
           width: "220px",
           height: "220px",
