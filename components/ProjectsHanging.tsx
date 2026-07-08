@@ -188,11 +188,13 @@ function PhotoCard({
   cardLeft,
   cardTop,
   onClick,
+  setIsDraggingParent,
 }: {
   project: Project;
   cardLeft: number;
   cardTop: number;
   onClick: () => void;
+  setIsDraggingParent: (dragging: boolean) => void;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [offsetX, setOffsetX] = useState(0);
@@ -221,6 +223,7 @@ function PhotoCard({
     }
     isTransitioningRef.current = true;
     setIsDragging(true);
+    setIsDraggingParent(true);
 
     dragStartMouseX.current = e.clientX;
     dragStartMouseY.current = e.clientY;
@@ -237,6 +240,7 @@ function PhotoCard({
     }
     isTransitioningRef.current = true;
     setIsDragging(true);
+    setIsDraggingParent(true);
 
     if (e.touches.length > 0) {
       const touch = e.touches[0];
@@ -255,11 +259,21 @@ function PhotoCard({
     const newOffsetX = dragStartOffsetX.current + deltaX;
     const newOffsetY = dragStartOffsetY.current + deltaY;
 
-    setOffsetX(newOffsetX);
-    setOffsetY(newOffsetY);
+    const dist = Math.sqrt(newOffsetX * newOffsetX + newOffsetY * newOffsetY);
+    const MAX_DRAG = 480; // maximum allowed drag radius in pixels
+    let clampedOffsetX = newOffsetX;
+    let clampedOffsetY = newOffsetY;
+    
+    if (dist > MAX_DRAG) {
+      clampedOffsetX = (newOffsetX / dist) * MAX_DRAG;
+      clampedOffsetY = (newOffsetY / dist) * MAX_DRAG;
+    }
+
+    setOffsetX(clampedOffsetX);
+    setOffsetY(clampedOffsetY);
 
     // Calculate rotation angle matching the stretched thread line relative to vertical
-    const angle = Math.atan2(newOffsetX, p.threadLen + newOffsetY) * (180 / Math.PI);
+    const angle = Math.atan2(clampedOffsetX, p.threadLen + clampedOffsetY) * (180 / Math.PI);
     setRotation(angle);
   }, [isDragging, p.threadLen]);
 
@@ -275,10 +289,20 @@ function PhotoCard({
     const newOffsetX = dragStartOffsetX.current + deltaX;
     const newOffsetY = dragStartOffsetY.current + deltaY;
 
-    setOffsetX(newOffsetX);
-    setOffsetY(newOffsetY);
+    const dist = Math.sqrt(newOffsetX * newOffsetX + newOffsetY * newOffsetY);
+    const MAX_DRAG = 480; // maximum allowed drag radius in pixels
+    let clampedOffsetX = newOffsetX;
+    let clampedOffsetY = newOffsetY;
+    
+    if (dist > MAX_DRAG) {
+      clampedOffsetX = (newOffsetX / dist) * MAX_DRAG;
+      clampedOffsetY = (newOffsetY / dist) * MAX_DRAG;
+    }
 
-    const angle = Math.atan2(newOffsetX, p.threadLen + newOffsetY) * (180 / Math.PI);
+    setOffsetX(clampedOffsetX);
+    setOffsetY(clampedOffsetY);
+
+    const angle = Math.atan2(clampedOffsetX, p.threadLen + clampedOffsetY) * (180 / Math.PI);
     setRotation(angle);
   }, [isDragging, p.threadLen]);
 
@@ -323,6 +347,7 @@ function PhotoCard({
         setOffsetY(0);
         setRotation(0);
         isTransitioningRef.current = false;
+        setIsDraggingParent(false);
       }
     };
 
@@ -470,6 +495,7 @@ export default function ProjectsHanging() {
   const scrollWrapperRef = useRef<HTMLDivElement>(null);
   const [W, setW] = useState(1200); // Dynamic viewport width
   const [activeProject, setActiveProject] = useState<Project | null>(null);
+  const [someCardIsDragging, setSomeCardIsDragging] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -654,7 +680,7 @@ export default function ProjectsHanging() {
   return (
     <section
       id="projects"
-      className={`relative w-full bg-[#FFFBEF] border-t-4 border-black overflow-hidden ${activeProject ? "z-30" : "z-10"}`}
+      className={`relative w-full bg-transparent border-t-4 border-black overflow-x-clip ${activeProject || someCardIsDragging ? "z-30" : "z-10"}`}
       style={{ marginTop: "-384px" }}
       aria-label="Projects"
     >
@@ -691,7 +717,7 @@ export default function ProjectsHanging() {
       </div>
 
       {/* Hanging Gallery canvas container - flows vertically naturally with no horizontal scroll needed */}
-      <div ref={scrollWrapperRef} className="w-full relative py-4 select-none overflow-x-hidden">
+      <div ref={scrollWrapperRef} className="w-full relative py-4 select-none overflow-x-clip">
         <div
           ref={containerRef}
           className="relative w-full"
@@ -817,6 +843,7 @@ export default function ProjectsHanging() {
               cardLeft={d.cardLeft}
               cardTop={d.cardTop}
               onClick={() => setActiveProject(d.project)}
+              setIsDraggingParent={setSomeCardIsDragging}
             />
           ))}
         </div>
