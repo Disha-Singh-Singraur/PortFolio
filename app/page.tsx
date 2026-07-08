@@ -144,7 +144,7 @@ export default function Page() {
             <svg width="260" height="120" viewBox="0 0 260 120" className="opacity-55">
               {/* Sketchy double-curved loop arrow pointing to the rope (x=130) */}
               <path
-                d="M 55,68 C 55,90 85,98 98,98 C 112,98 116,75 130,84 C 143,93 210,95 225,75"
+                d="M 55,68 C 55,90 67,98 77,98 C 88,98 100,85 96,72 C 92,60 74,68 74,84 C 74,100 100,100 114,95 C 137,85 210,95 225,75"
                 fill="none"
                 stroke="#3e3835"
                 strokeWidth={2}
@@ -183,7 +183,7 @@ export default function Page() {
             <svg width="350" height="150" viewBox="0 0 350 150" className="opacity-55">
               {/* Sketchy double-curved loop arrow pointing to the rope (x=200) */}
               <path
-                d="M 65,70 C 65,100 95,110 110,110 C 125,110 130,85 145,95 C 160,105 290,110 305,80"
+                d="M 65,70 C 65,100 85,110 100,110 C 115,110 130,95 125,80 C 120,65 95,75 95,95 C 95,115 130,115 150,110 C 180,100 280,110 305,80"
                 fill="none"
                 stroke="#3e3835"
                 strokeWidth={2}
