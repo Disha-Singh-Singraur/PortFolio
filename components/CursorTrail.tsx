@@ -23,6 +23,7 @@ export default function CursorTrail() {
   const poolSize = 24; // Pre-rendered star particles pool
 
   const isCoolModeRef = useRef(false);
+  const isDraggingLensRef = useRef(false);
 
   useEffect(() => {
     const isTouch = 
@@ -116,6 +117,50 @@ export default function CursorTrail() {
       window.addEventListener("mousemove", handleMouseMove);
     }
 
+    // Touch event listeners specifically for dragging the lens on mobile/tablets
+    const handleTouchStart = (e: TouchEvent) => {
+      if (!isCoolModeRef.current || e.touches.length === 0) return;
+      const touch = e.touches[0];
+      const touchX = touch.clientX;
+      const touchY = touch.clientY;
+
+      // Current center coordinates of the lens
+      const lensX = coords.current.x;
+      const lensY = coords.current.y;
+
+      // Calculate distance to determine if the touch is inside the 110px radius lens
+      const dx = touchX - lensX;
+      const dy = touchY - lensY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist <= 110) {
+        isDraggingLensRef.current = true;
+        coords.current.x = touchX;
+        coords.current.y = touchY;
+      } else {
+        isDraggingLensRef.current = false;
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isCoolModeRef.current || !isDraggingLensRef.current || e.touches.length === 0) return;
+      
+      // Stop the window from scrolling because we are dragging the lens
+      e.preventDefault();
+
+      coords.current.x = e.touches[0].clientX;
+      coords.current.y = e.touches[0].clientY;
+    };
+
+    const handleTouchEnd = () => {
+      isDraggingLensRef.current = false;
+    };
+
+    window.addEventListener("touchstart", handleTouchStart, { passive: false });
+    window.addEventListener("touchmove", handleTouchMove, { passive: false });
+    window.addEventListener("touchend", handleTouchEnd, { passive: true });
+    window.addEventListener("touchcancel", handleTouchEnd, { passive: true });
+
     let animationFrameId: number;
 
     const updateParticles = () => {
@@ -124,26 +169,9 @@ export default function CursorTrail() {
 
       // Update Lens Position instantly if cool mode is active
       if (isCoolModeRef.current) {
-        if (isDesktop) {
-          if (lensRef.current && x > -100) {
-            lensRef.current.style.transform = `translate3d(${x - 110}px, ${y - 110}px, 0)`;
-            lensRef.current.style.opacity = "1";
-          }
-        } else {
-          // Mobile/Tablet floats automatically in a smooth figure-8 / Lissajous curve to prevent touch-scroll clashes
-          const time = Date.now() * 0.0012; // speed factor
-          const centerX = window.innerWidth / 2;
-          const centerY = window.innerHeight / 2;
-          const radiusX = window.innerWidth * 0.35; // horizontal amplitude
-          const radiusY = Math.min(250, window.innerHeight * 0.25); // vertical amplitude
-
-          const floatX = centerX + Math.sin(time) * radiusX;
-          const floatY = centerY + Math.cos(time * 0.75) * radiusY;
-
-          if (lensRef.current) {
-            lensRef.current.style.transform = `translate3d(${floatX - 110}px, ${floatY - 110}px, 0)`;
-            lensRef.current.style.opacity = "1";
-          }
+        if (lensRef.current && x > -100) {
+          lensRef.current.style.transform = `translate3d(${x - 110}px, ${y - 110}px, 0)`;
+          lensRef.current.style.opacity = "1";
         }
       } else {
         // Otherwise, make sure the lens stays hidden
@@ -193,6 +221,10 @@ export default function CursorTrail() {
     return () => {
       document.body.classList.remove("custom-cursor-pink");
       window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleTouchEnd);
+      window.removeEventListener("touchcancel", handleTouchEnd);
       window.removeEventListener("toggle-cool-mode", handleToggle);
       cancelAnimationFrame(animationFrameId);
     };
