@@ -687,7 +687,7 @@ export default function ProjectsHanging() {
         <h2 className="text-5xl md:text-7xl font-black text-black uppercase tracking-tight leading-none">
           Projects
         </h2>
-        <p className="font-mono text-xs text-gray-500 mt-2 tracking-wide">✦ click to open project ✦</p>
+        <p className="font-mono text-xs text-gray-500 mt-2 tracking-wide">✦ try dragging a project ✦</p>
       </div>
 
       {/* Hanging Gallery canvas container - flows vertically naturally with no horizontal scroll needed */}

@@ -64,9 +64,9 @@ export default function Page() {
           </svg>
         </div>
 
-        <div className="relative w-full max-w-6xl z-10 flex flex-col md:block">
-          {/* Text Card - stacked on mobile, absolutely layered on desktop */}
-          <div className="relative md:absolute top-0 left-0 md:top-20 md:left-20 z-20 md:z-0 w-full md:max-w-xl p-6 md:p-8 bg-[#FFFDEE] border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] order-1 md:order-none mb-6 md:mb-0">
+        <div className="relative w-full max-w-6xl z-10 flex flex-col lg:block">
+          {/* Text Card - stacked on mobile/tablet, absolutely layered on desktop */}
+          <div className="relative lg:absolute top-0 left-0 lg:top-20 lg:left-20 z-20 lg:z-0 w-full lg:max-w-xl p-6 md:p-8 bg-[#FFFDEE] border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] order-1 lg:order-none mb-6 lg:mb-0">
             <span className="inline-block text-xs font-mono font-black uppercase tracking-wider bg-pink-300 text-black px-2.5 py-1 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] mb-4">
               Hi, I&apos;m
             </span>
@@ -106,16 +106,16 @@ export default function Page() {
             width={1500}
             height={1000}
             priority
-            className="pointer-events-none relative z-10 w-full h-auto order-2 md:order-none"
+            className="pointer-events-none relative z-10 w-full h-auto order-2 lg:order-none"
           />
         </div>
       </main>
 
       {/* About Me Section */}
-      <section id="about" className="relative w-full bg-[#FFFBEF] border-t-4 border-black -mt-24 md:-mt-36 pt-28 md:pt-40 pb-24 px-6 md:px-12 z-0">
+      <section id="about" className="relative w-full bg-[#FFFBEF] border-t-4 border-black -mt-24 lg:-mt-36 pt-28 lg:pt-40 pb-24 px-6 md:px-12 z-0">
         <div className="max-w-6xl mx-auto relative">
           {/* Rope Hanging Girl Image Container */}
-          <div className="hidden md:block absolute left-[22%] lg:left-[25%] top-[-80px] lg:top-[-115px] z-20 w-[260px] lg:w-[400px] h-[745px] lg:h-[1145px] pointer-events-none">
+          <div className="hidden lg:block absolute left-[22%] lg:left-[25%] top-[-80px] lg:top-[-115px] z-20 w-[260px] lg:w-[400px] h-[745px] lg:h-[1145px] pointer-events-none">
             {/* Left Trigger (Approach from Left) */}
             <div className="absolute left-[30px] lg:left-[50px] top-0 w-[100px] lg:w-[150px] h-[800px] cursor-pointer pointer-events-auto z-30 peer/left" />
             
@@ -140,11 +140,11 @@ export default function Page() {
           </div>
 
           {/* TABLET VIEW: Hand-drawn curved arrow & hint text pointing to the pink circle below the girl */}
-          <div className="hidden md:block lg:hidden absolute left-[calc(22%-150px)] top-[310px] z-10 pointer-events-none select-none">
+          <div className="hidden absolute left-[calc(22%-152px)] top-[270px] z-10 pointer-events-none select-none -rotate-6">
             <svg width="260" height="120" viewBox="0 0 260 120" className="opacity-55">
               {/* Sketchy double-curved loop arrow pointing to the rope (x=130) */}
               <path
-                d="M 55,68 C 55,90 67,98 77,98 C 88,98 100,85 96,72 C 92,60 74,68 74,84 C 74,100 100,100 114,95 C 137,85 210,95 225,75"
+                d="M 145,68 C 145,95 158,105 170,105 C 182,105 190,92 186,78 C 182,65 166,72 166,88 C 166,104 186,104 198,99 C 210,92 218,90 225,75"
                 fill="none"
                 stroke="#3e3835"
                 strokeWidth={2}
@@ -160,7 +160,7 @@ export default function Page() {
               />
               {/* Cursive-style Monospace Text on two lines */}
               <text
-                x="35"
+                x="115"
                 y="45"
                 fill="#3e3835"
                 className="font-mono text-[10px] font-bold tracking-wide"
@@ -168,7 +168,7 @@ export default function Page() {
                 try clicking
               </text>
               <text
-                x="60"
+                x="140"
                 y="58"
                 fill="#3e3835"
                 className="font-mono text-[10px] font-bold tracking-wide"
@@ -179,11 +179,11 @@ export default function Page() {
           </div>
 
           {/* DESKTOP VIEW: Hand-drawn curved arrow & hint text pointing to the pink circle below the girl */}
-          <div className="hidden lg:block absolute left-[calc(25%-180px)] top-[510px] z-10 pointer-events-none select-none">
+          <div className="hidden lg:block absolute left-[calc(25%-182px)] top-[470px] z-10 pointer-events-none select-none -rotate-6">
             <svg width="350" height="150" viewBox="0 0 350 150" className="opacity-55">
               {/* Sketchy double-curved loop arrow pointing to the rope (x=200) */}
               <path
-                d="M 65,70 C 65,100 85,110 100,110 C 115,110 130,95 125,80 C 120,65 95,75 95,95 C 95,115 130,115 150,110 C 180,100 280,110 305,80"
+                d="M 185,70 C 185,100 200,110 215,110 C 230,110 240,95 235,80 C 230,65 210,75 210,95 C 210,115 240,115 255,110 C 270,105 290,100 305,80"
                 fill="none"
                 stroke="#3e3835"
                 strokeWidth={2}
@@ -199,7 +199,7 @@ export default function Page() {
               />
               {/* Cursive-style Monospace Text on two lines */}
               <text
-                x="45"
+                x="155"
                 y="45"
                 fill="#3e3835"
                 className="font-mono text-[11px] font-bold tracking-wide"
@@ -207,7 +207,7 @@ export default function Page() {
                 try clicking
               </text>
               <text
-                x="70"
+                x="180"
                 y="60"
                 fill="#3e3835"
                 className="font-mono text-[11px] font-bold tracking-wide"

@@ -50,9 +50,7 @@ const sparklesData = [
   { top: "52%",  left: "22%",  size: 20, color: "text-purple-300", delay: "1.9s", duration: "7s"   },
 ];
 
-// The palm center as percentage of the container
-const PALM_CENTER_TOP = "72%";
-const PALM_CENTER_LEFT = "50%";
+// Dynamic responsive palm center positions will be calculated inside the component
 
 const getNeobrutalistClasses = (size: number) => {
   if (size > 120) {
@@ -75,7 +73,39 @@ const getRotationClass = (index: number) => {
 export default function Skills() {
   const [isVisible, setIsVisible] = useState(false);
   const [animStep, setAnimStep] = useState(0); // 0: hidden, 1: hand high, 2: hand down & orbs emerge, 3: floating
+  const [screenMode, setScreenMode] = useState<"mobile" | "tablet" | "desktop">("desktop");
   const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const w = window.innerWidth;
+      if (w < 768) {
+        setScreenMode("mobile");
+      } else if (w < 1024) {
+        setScreenMode("tablet");
+      } else {
+        setScreenMode("desktop");
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const PALM_CENTER_TOP = 
+    screenMode === "mobile" ? "92%" : 
+    screenMode === "tablet" ? "84%" : 
+    "72%";
+  const PALM_CENTER_LEFT = "50%";
+
+  const getResponsiveLeft = (finalLeft: string) => {
+    if (screenMode === "desktop") return finalLeft;
+    const num = parseFloat(finalLeft);
+    if (screenMode === "mobile") {
+      return `${Math.max(1, num - 5)}%`;
+    }
+    return `${Math.min(99, num + 2)}%`;
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -148,7 +178,7 @@ export default function Skills() {
       </div>
 
       {/* Canvas */}
-      <div className="relative w-full max-w-7xl mx-auto" style={{ height: "90vh", minHeight: "750px" }}>
+      <div className="relative w-full max-w-7xl mx-auto h-[60vh] min-h-[460px] md:h-[75vh] md:min-h-[600px] lg:h-[90vh] lg:min-h-[750px]">
 
         {/* Cute Sparkles */}
         {sparklesData.map((sp, idx) => (
@@ -174,7 +204,7 @@ export default function Skills() {
 
         {/* The Big Hand — choreographically positioned and scaled */}
         <div
-          className="absolute inset-0 -bottom-52 flex items-end justify-center pointer-events-none"
+          className="absolute inset-0 -bottom-[90px] md:-bottom-[130px] lg:-bottom-52 flex items-end justify-center pointer-events-none"
           style={{
             opacity: animStep > 0 ? 1 : 0,
             transform: animStep === 1
@@ -207,7 +237,7 @@ export default function Skills() {
             const palmX = parseFloat(PALM_CENTER_LEFT);
             const palmY = parseFloat(PALM_CENTER_TOP);
 
-            const orbLeftNum = parseFloat(skill.finalLeft);
+            const orbLeftNum = parseFloat(getResponsiveLeft(skill.finalLeft));
             const orbTopNum = parseFloat(skill.finalTop);
             const offsetX = (skill.size / 1280) * 100 / 2;
             const offsetY = (skill.size / 700) * 100 / 2;
@@ -269,7 +299,7 @@ export default function Skills() {
                 width: skill.size,
                 height: skill.size,
                 left: settled
-                  ? skill.finalLeft
+                  ? getResponsiveLeft(skill.finalLeft)
                   : `calc(${PALM_CENTER_LEFT} - ${skill.size / 2}px)`,
                 top: settled
                   ? skill.finalTop
