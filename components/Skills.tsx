@@ -75,6 +75,10 @@ export default function Skills() {
   const [animStep, setAnimStep] = useState(0); // 0: hidden, 1: hand high, 2: hand down & orbs emerge, 3: floating
   const [screenMode, setScreenMode] = useState<"mobile" | "tablet" | "desktop">("desktop");
   const sectionRef = useRef<HTMLElement>(null);
+  const canvasRef = useRef<HTMLDivElement>(null);
+  const handRef = useRef<HTMLDivElement>(null);
+  const markerRef = useRef<HTMLDivElement>(null);
+  const [palmCenter, setPalmCenter] = useState({ x: 50, y: 72 });
 
   useEffect(() => {
     const handleResize = () => {
@@ -92,11 +96,51 @@ export default function Skills() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const PALM_CENTER_TOP = 
-    screenMode === "mobile" ? "92%" : 
-    screenMode === "tablet" ? "84%" : 
-    "72%";
-  const PALM_CENTER_LEFT = "50%";
+  const updatePalmCenter = () => {
+    if (canvasRef.current && markerRef.current) {
+      const canvasRect = canvasRef.current.getBoundingClientRect();
+      const markerRect = markerRef.current.getBoundingClientRect();
+      if (canvasRect.width > 0 && canvasRect.height > 0) {
+        const x = ((markerRect.left + markerRect.width / 2) - canvasRect.left) / canvasRect.width * 100;
+        const y = ((markerRect.top + markerRect.height / 2) - canvasRect.top) / canvasRect.height * 100;
+        if (!isNaN(x) && !isNaN(y)) {
+          setPalmCenter({ x, y });
+          return;
+        }
+      }
+    }
+    // Fallback if measurements are not available yet (e.g. initial paint / server render)
+    const defaultY = screenMode === "mobile" ? 92 : screenMode === "tablet" ? 84 : 72;
+    setPalmCenter({ x: 50, y: defaultY });
+  };
+
+  useEffect(() => {
+    updatePalmCenter();
+  }, []);
+
+  useEffect(() => {
+    // Keep palm center fallback updated if screenMode changes before dimensions load
+    const defaultY = screenMode === "mobile" ? 92 : screenMode === "tablet" ? 84 : 72;
+    setPalmCenter((prev) => ({ ...prev, y: defaultY }));
+  }, [screenMode]);
+
+  // Observe canvas container and dummy hand size changes (window resize/viewport shifts/image load)
+  useEffect(() => {
+    if (typeof window !== "undefined" && typeof ResizeObserver !== "undefined") {
+      const observer = new ResizeObserver(() => {
+        updatePalmCenter();
+      });
+      if (canvasRef.current) {
+        observer.observe(canvasRef.current);
+      }
+      if (handRef.current) {
+        observer.observe(handRef.current);
+      }
+      return () => {
+        observer.disconnect();
+      };
+    }
+  }, []);
 
   const getResponsiveLeft = (finalLeft: string) => {
     if (screenMode === "desktop") return finalLeft;
@@ -178,7 +222,7 @@ export default function Skills() {
       </div>
 
       {/* Canvas */}
-      <div className="relative w-full max-w-7xl mx-auto h-[60vh] min-h-[460px] md:h-[75vh] md:min-h-[600px] lg:h-[90vh] lg:min-h-[750px]">
+      <div ref={canvasRef} className="relative w-full max-w-7xl mx-auto h-[60vh] min-h-[460px] md:h-[75vh] md:min-h-[600px] lg:h-[90vh] lg:min-h-[750px]">
 
         {/* Cute Sparkles */}
         {sparklesData.map((sp, idx) => (
@@ -202,6 +246,32 @@ export default function Skills() {
           </div>
         ))}
 
+        {/* Dummy Hand for dynamic palm coordinate calculations (always static and invisible) */}
+        <div
+          className="absolute inset-0 -bottom-[90px] md:-bottom-[130px] lg:-bottom-52 flex items-end justify-center pointer-events-none opacity-0"
+          style={{
+            transform: "scale(0.95) translateY(0)",
+            zIndex: 1,
+          }}
+        >
+          <div ref={handRef} className="relative w-full h-auto flex items-end justify-center pointer-events-none">
+            <Image
+              src="/images/hand.png"
+              alt=""
+              width={1500}
+              height={1000}
+              className="w-full h-auto"
+              priority
+              onLoad={updatePalmCenter}
+            />
+            {/* Invisible marker at the center of the palm */}
+            <div
+              ref={markerRef}
+              className="absolute top-[52.5%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-1 h-1 pointer-events-none opacity-0"
+            />
+          </div>
+        </div>
+
         {/* The Big Hand — choreographically positioned and scaled */}
         <div
           className="absolute inset-0 -bottom-[90px] md:-bottom-[130px] lg:-bottom-52 flex items-end justify-center pointer-events-none"
@@ -216,14 +286,16 @@ export default function Skills() {
             zIndex: 20,
           }}
         >
-          <Image
-            src="/images/hand.png"
-            alt="Magic hand casting skills"
-            width={1500}
-            height={1000}
-            className="w-full h-auto"
-            priority
-          />
+          <div className="relative w-full h-auto flex items-end justify-center pointer-events-none">
+            <Image
+              src="/images/hand.png"
+              alt="Magic hand casting skills"
+              width={1500}
+              height={1000}
+              className="w-full h-auto"
+              priority
+            />
+          </div>
         </div>
 
         {/* SVG Threads — curvy Bézier strings from palm to each orb */}
@@ -234,8 +306,8 @@ export default function Skills() {
           style={{ zIndex: 25 }}
         >
           {skills.map((skill, i) => {
-            const palmX = parseFloat(PALM_CENTER_LEFT);
-            const palmY = parseFloat(PALM_CENTER_TOP);
+            const palmX = palmCenter.x;
+            const palmY = palmCenter.y;
 
             const orbLeftNum = parseFloat(getResponsiveLeft(skill.finalLeft));
             const orbTopNum = parseFloat(skill.finalTop);
@@ -300,10 +372,10 @@ export default function Skills() {
                 height: skill.size,
                 left: settled
                   ? getResponsiveLeft(skill.finalLeft)
-                  : `calc(${PALM_CENTER_LEFT} - ${skill.size / 2}px)`,
+                  : `calc(${palmCenter.x}% - ${skill.size / 2}px)`,
                 top: settled
                   ? skill.finalTop
-                  : `calc(${PALM_CENTER_TOP} - ${skill.size / 2}px)`,
+                  : `calc(${palmCenter.y}% - ${skill.size / 2}px)`,
                 opacity: settled ? 1 : 0,
                 transform: settled ? "scale(1)" : "scale(0)",
                 transition: settled
