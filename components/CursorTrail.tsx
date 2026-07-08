@@ -116,16 +116,6 @@ export default function CursorTrail() {
       window.addEventListener("mousemove", handleMouseMove);
     }
 
-    // Touch events for mobile/tablet to drag the lens around
-    const handleTouchMove = (e: TouchEvent) => {
-      if (!isCoolModeRef.current || e.touches.length === 0) return;
-      coords.current.x = e.touches[0].clientX;
-      coords.current.y = e.touches[0].clientY;
-    };
-
-    window.addEventListener("touchmove", handleTouchMove, { passive: true });
-    window.addEventListener("touchstart", handleTouchMove, { passive: true });
-
     let animationFrameId: number;
 
     const updateParticles = () => {
@@ -134,9 +124,26 @@ export default function CursorTrail() {
 
       // Update Lens Position instantly if cool mode is active
       if (isCoolModeRef.current) {
-        if (lensRef.current && x > -100) {
-          lensRef.current.style.transform = `translate3d(${x - 110}px, ${y - 110}px, 0)`;
-          lensRef.current.style.opacity = "1";
+        if (isDesktop) {
+          if (lensRef.current && x > -100) {
+            lensRef.current.style.transform = `translate3d(${x - 110}px, ${y - 110}px, 0)`;
+            lensRef.current.style.opacity = "1";
+          }
+        } else {
+          // Mobile/Tablet floats automatically in a smooth figure-8 / Lissajous curve to prevent touch-scroll clashes
+          const time = Date.now() * 0.0012; // speed factor
+          const centerX = window.innerWidth / 2;
+          const centerY = window.innerHeight / 2;
+          const radiusX = window.innerWidth * 0.35; // horizontal amplitude
+          const radiusY = Math.min(250, window.innerHeight * 0.25); // vertical amplitude
+
+          const floatX = centerX + Math.sin(time) * radiusX;
+          const floatY = centerY + Math.cos(time * 0.75) * radiusY;
+
+          if (lensRef.current) {
+            lensRef.current.style.transform = `translate3d(${floatX - 110}px, ${floatY - 110}px, 0)`;
+            lensRef.current.style.opacity = "1";
+          }
         }
       } else {
         // Otherwise, make sure the lens stays hidden
@@ -186,8 +193,6 @@ export default function CursorTrail() {
     return () => {
       document.body.classList.remove("custom-cursor-pink");
       window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("touchmove", handleTouchMove);
-      window.removeEventListener("touchstart", handleTouchMove);
       window.removeEventListener("toggle-cool-mode", handleToggle);
       cancelAnimationFrame(animationFrameId);
     };
