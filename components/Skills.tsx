@@ -79,6 +79,7 @@ export default function Skills() {
   const handRef = useRef<HTMLDivElement>(null);
   const markerRef = useRef<HTMLDivElement>(null);
   const [palmCenter, setPalmCenter] = useState({ x: 50, y: 72 });
+  const [canvasSize, setCanvasSize] = useState({ width: 1280, height: 700 });
 
   useEffect(() => {
     const handleResize = () => {
@@ -105,12 +106,13 @@ export default function Skills() {
         const y = ((markerRect.top + markerRect.height / 2) - canvasRect.top) / canvasRect.height * 100;
         if (!isNaN(x) && !isNaN(y)) {
           setPalmCenter({ x, y });
+          setCanvasSize({ width: canvasRect.width, height: canvasRect.height });
           return;
         }
       }
     }
     // Fallback if measurements are not available yet (e.g. initial paint / server render)
-    const defaultY = screenMode === "mobile" ? 92 : screenMode === "tablet" ? 84 : 72;
+    const defaultY = screenMode === "mobile" ? 87 : screenMode === "tablet" ? 84 : 72;
     setPalmCenter({ x: 50, y: defaultY });
   };
 
@@ -120,7 +122,7 @@ export default function Skills() {
 
   useEffect(() => {
     // Keep palm center fallback updated if screenMode changes before dimensions load
-    const defaultY = screenMode === "mobile" ? 92 : screenMode === "tablet" ? 84 : 72;
+    const defaultY = screenMode === "mobile" ? 87 : screenMode === "tablet" ? 84 : 72;
     setPalmCenter((prev) => ({ ...prev, y: defaultY }));
   }, [screenMode]);
 
@@ -146,7 +148,7 @@ export default function Skills() {
     if (screenMode === "desktop") return finalLeft;
     const num = parseFloat(finalLeft);
     if (screenMode === "mobile") {
-      return `${Math.max(1, num - 5)}%`;
+      return `${Math.max(1, num - 2)}%`;
     }
     return `${Math.min(99, num + 2)}%`;
   };
@@ -248,7 +250,7 @@ export default function Skills() {
 
         {/* Dummy Hand for dynamic palm coordinate calculations (always static and invisible) */}
         <div
-          className="absolute inset-0 -bottom-[90px] md:-bottom-[130px] lg:-bottom-52 flex items-end justify-center pointer-events-none opacity-0"
+          className="absolute inset-0 -bottom-[65px] md:-bottom-[130px] lg:-bottom-52 flex items-end justify-center pointer-events-none opacity-0"
           style={{
             transform: "scale(0.95) translateY(0)",
             zIndex: 1,
@@ -274,7 +276,7 @@ export default function Skills() {
 
         {/* The Big Hand — choreographically positioned and scaled */}
         <div
-          className="absolute inset-0 -bottom-[90px] md:-bottom-[130px] lg:-bottom-52 flex items-end justify-center pointer-events-none"
+          className="absolute inset-0 -bottom-[65px] md:-bottom-[130px] lg:-bottom-52 flex items-end justify-center pointer-events-none"
           style={{
             opacity: animStep > 0 ? 1 : 0,
             transform: animStep === 1
@@ -309,12 +311,16 @@ export default function Skills() {
             const palmX = palmCenter.x;
             const palmY = palmCenter.y;
 
+            const scale = screenMode === "mobile" ? 0.6 : screenMode === "tablet" ? 0.8 : 1;
+            const size = skill.size * scale;
+
             const orbLeftNum = parseFloat(getResponsiveLeft(skill.finalLeft));
             const orbTopNum = parseFloat(skill.finalTop);
-            const offsetX = (skill.size / 1280) * 100 / 2;
-            const offsetY = (skill.size / 700) * 100 / 2;
+            const offsetX = (size / canvasSize.width) * 100 / 2;
+            const offsetY = (size / canvasSize.height) * 100 / 2;
+            const extraLeftPercent = screenMode === "mobile" ? (2 / canvasSize.width) * 100 : 0;
 
-            const endX = orbLeftNum + offsetX;
+            const endX = orbLeftNum + offsetX + extraLeftPercent;
             const endY = orbTopNum + offsetY;
 
             // Direction vector
@@ -359,8 +365,10 @@ export default function Skills() {
 
         {/* Skill Cards — start at palm, transition to final positions */}
         {skills.map((skill, i) => {
+          const scale = screenMode === "mobile" ? 0.6 : screenMode === "tablet" ? 0.8 : 1;
+          const size = skill.size * scale;
           const rotationClass = getRotationClass(i);
-          const shadowHoverClass = getNeobrutalistClasses(skill.size);
+          const shadowHoverClass = getNeobrutalistClasses(size);
           const floatAnim = orbsSettled ? floatAnimations[i % floatAnimations.length] : "none";
 
           return (
@@ -368,14 +376,14 @@ export default function Skills() {
               key={`skill-${i}`}
               className={`absolute flex items-center justify-center border-4 border-black font-black uppercase text-center select-none cursor-pointer transition-all duration-300 ${skill.bg} ${rotationClass} ${shadowHoverClass}`}
               style={{
-                width: skill.size,
-                height: skill.size,
+                width: size,
+                height: size,
                 left: settled
-                  ? getResponsiveLeft(skill.finalLeft)
-                  : `calc(${palmCenter.x}% - ${skill.size / 2}px)`,
+                  ? (screenMode === "mobile" ? `calc(${getResponsiveLeft(skill.finalLeft)} + 2px)` : getResponsiveLeft(skill.finalLeft))
+                  : `calc(${palmCenter.x}% - ${size / 2}px)`,
                 top: settled
                   ? skill.finalTop
-                  : `calc(${palmCenter.y}% - ${skill.size / 2}px)`,
+                  : `calc(${palmCenter.y}% - ${size / 2}px)`,
                 opacity: settled ? 1 : 0,
                 transform: settled ? "scale(1)" : "scale(0)",
                 transition: settled
@@ -388,7 +396,11 @@ export default function Skills() {
               {skill.name && (
                 <span
                   style={{
-                    fontSize: skill.size > 120 ? "1.1rem" : skill.size >= 100 ? "0.9rem" : "0.75rem",
+                    fontSize: screenMode === "mobile"
+                      ? (skill.size > 120 ? "0.8rem" : skill.size >= 100 ? "0.7rem" : "0.55rem")
+                      : screenMode === "tablet"
+                        ? (skill.size > 120 ? "0.95rem" : skill.size >= 100 ? "0.8rem" : "0.65rem")
+                        : (skill.size > 120 ? "1.1rem" : skill.size >= 100 ? "0.9rem" : "0.75rem"),
                     lineHeight: "1.1",
                   }}
                   className="px-2"

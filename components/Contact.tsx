@@ -78,7 +78,7 @@ export default function Contact() {
       <div className="w-full max-w-xl flex flex-col items-center relative z-10">
         
         {/* Top: Flipped girl illustration sitting on the projects section's bottom line */}
-        <div className="relative z-10 w-full max-w-[420px] md:max-w-[500px] -mt-[150px] md:-mt-[210px] mb-0 pointer-events-none">
+        <div className="relative z-20 w-full max-w-[420px] md:max-w-[500px] -mt-[150px] md:-mt-[210px] mb-0 pointer-events-none">
           <Image
             src="/images/bye.png"
             alt="Goodbye illustration"
