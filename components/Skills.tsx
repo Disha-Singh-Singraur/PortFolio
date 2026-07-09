@@ -151,29 +151,6 @@ export default function Skills() {
     return `${Math.min(99, num + 2)}%`;
   };
 
-  const getResponsiveSize = (size: number) => {
-    if (screenMode === "mobile") {
-      return Math.round(size * 0.42);
-    }
-    if (screenMode === "tablet") {
-      return Math.round(size * 0.85);
-    }
-    return size;
-  };
-
-  const getResponsiveFontSize = (name: string, responsiveSize: number) => {
-    if (!name) return "0px";
-    if (screenMode !== "mobile") {
-      return responsiveSize > 110 ? "1.1rem" : responsiveSize >= 80 ? "0.85rem" : responsiveSize >= 65 ? "0.75rem" : "0.65rem";
-    }
-    const len = name.length;
-    const availableWidth = responsiveSize - 4; // border-2 takes 4px total
-    if (len <= 4) return "0.62rem";
-    const calculatedRem = (availableWidth / (len * 0.52)) / 16;
-    const clampedRem = Math.max(0.42, Math.min(0.58, calculatedRem));
-    return `${clampedRem}rem`;
-  };
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -334,9 +311,8 @@ export default function Skills() {
 
             const orbLeftNum = parseFloat(getResponsiveLeft(skill.finalLeft));
             const orbTopNum = parseFloat(skill.finalTop);
-            const responsiveSize = getResponsiveSize(skill.size);
-            const offsetX = (responsiveSize / 1280) * 100 / 2;
-            const offsetY = (responsiveSize / 700) * 100 / 2;
+            const offsetX = (skill.size / 1280) * 100 / 2;
+            const offsetY = (skill.size / 700) * 100 / 2;
 
             const endX = orbLeftNum + offsetX;
             const endY = orbTopNum + offsetY;
@@ -384,23 +360,22 @@ export default function Skills() {
         {/* Skill Cards — start at palm, transition to final positions */}
         {skills.map((skill, i) => {
           const rotationClass = getRotationClass(i);
-          const responsiveSize = getResponsiveSize(skill.size);
-          const shadowHoverClass = getNeobrutalistClasses(responsiveSize);
+          const shadowHoverClass = getNeobrutalistClasses(skill.size);
           const floatAnim = orbsSettled ? floatAnimations[i % floatAnimations.length] : "none";
 
           return (
             <div
               key={`skill-${i}`}
-              className={`absolute flex items-center justify-center border-2 md:border-4 border-black font-black uppercase text-center select-none cursor-pointer transition-all duration-300 ${skill.bg} ${rotationClass} ${shadowHoverClass}`}
+              className={`absolute flex items-center justify-center border-4 border-black font-black uppercase text-center select-none cursor-pointer transition-all duration-300 ${skill.bg} ${rotationClass} ${shadowHoverClass}`}
               style={{
-                width: responsiveSize,
-                height: responsiveSize,
+                width: skill.size,
+                height: skill.size,
                 left: settled
                   ? getResponsiveLeft(skill.finalLeft)
-                  : `calc(${palmCenter.x}% - ${responsiveSize / 2}px)`,
+                  : `calc(${palmCenter.x}% - ${skill.size / 2}px)`,
                 top: settled
                   ? skill.finalTop
-                  : `calc(${palmCenter.y}% - ${responsiveSize / 2}px)`,
+                  : `calc(${palmCenter.y}% - ${skill.size / 2}px)`,
                 opacity: settled ? 1 : 0,
                 transform: settled ? "scale(1)" : "scale(0)",
                 transition: settled
@@ -413,10 +388,10 @@ export default function Skills() {
               {skill.name && (
                 <span
                   style={{
-                    fontSize: getResponsiveFontSize(skill.name, responsiveSize),
+                    fontSize: skill.size > 120 ? "1.1rem" : skill.size >= 100 ? "0.9rem" : "0.75rem",
                     lineHeight: "1.1",
                   }}
-                  className="px-1 md:px-2"
+                  className="px-2"
                 >
                   {skill.name}
                 </span>
