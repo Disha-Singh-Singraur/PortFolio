@@ -1,41 +1,35 @@
-# Interactive Developer Portfolio 🚀
+# 🌸 Interactive Developer Portfolio
 
-A premium, highly interactive, and visually stunning developer portfolio built using **Next.js**, **React 19**, and **Tailwind CSS v4**.
+A custom-designed portfolio that reflects both my technical and creative side. Built with **Next.js**, **React 19**, **TypeScript**, and **Tailwind CSS v4**, it combines modern web development with original illustrations, playful interactions, and physics-inspired animations to create an engaging user experience.
 
 🔗 **Live Demo**: [disha-singh-singraur.vercel.app](https://disha-singh-singraur.vercel.app)
 
 ---
 
-## ✨ Features & Interactions
+## ✨ Highlights
 
-This portfolio goes beyond a static page, implementing physics-based animations, canvas effects, and fluid user interactions to deliver a premium user experience:
+* 🎨 **Custom Visual Identity** – Every illustration and graphic was designed by me to give the portfolio a unique personality.
+* 🪢 **Interactive Hanging Projects** – Project cards hang from a draggable rope with realistic swinging animations and canvas-rendered connectors.
+* 🖱️ **Custom Cursor Trail** – A lightweight canvas-based cursor trail that adds subtle motion throughout the site.
+* ⚡ **Interactive UI Elements** – Smooth hover effects, micro-interactions, and a fun "Cool Mode" toggle enhance the browsing experience.
+* 💻 **Skills Showcase** – A clean, organized presentation of the technologies and tools I work with.
+* 📬 **Contact Section** – A simple and accessible way to connect with me.
 
-*   **Interactive Draggable Rope**: A physics-based rope implementation that users can grab, drag, and swing with real-time feedback.
-*   **Hanging Projects Board**: Project cards styled to hang from the draggable rope, complete with canvas-drawn rope connectors and realistic swinging physics.
-*   **Smooth Cursor Trail**: A custom, high-performance canvas-based mouse trail that follows the user's cursor across the screen.
-*   **Cool Mode Toggle**: Interactive UI feature to toggle specialized visual states or playful modes.
-*   **Aesthetic Skills Showcase**: A beautifully grouped and visually clean listing of technologies and skills.
-*   **Polished Contact Form**: A structured, elegant contact section to get in touch.
+## 🛠 Tech Stack
 
----
-
-## 🛠️ Tech Stack
-
-*   **Framework**: [Next.js](https://nextjs.org/) (App Router)
-*   **Core Library**: [React 19](https://react.dev/)
-*   **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
-*   **Language**: [TypeScript](https://www.typescriptlang.org/)
-*   **Animations**: Custom canvas-based physics and CSS transitions for micro-animations.
+* **Framework:** Next.js (App Router)
+* **Library:** React 19
+* **Language:** TypeScript
+* **Styling:** Tailwind CSS v4
+* **Animations:** HTML Canvas, CSS animations, and custom physics-based interactions
 
 ---
 
-## 🚀 Getting Started
-
-To run this project locally, follow these steps:
+## 🚀 Running Locally
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/your-username/my-portfolio.git
+git clone https://github.com/Disha-Singh-Singraur/PortFolio.git
 cd my-portfolio
 ```
 
@@ -49,9 +43,10 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to view the local build.
+Open `http://localhost:3000` in your browser.
 
-### 4. Build for production
+To build for production:
+
 ```bash
 npm run build
 npm run start
@@ -61,4 +56,4 @@ npm run start
 
 ## 📄 License
 
-This project is open-source and available under the [MIT License](LICENSE).
+This project is licensed under the MIT License.
