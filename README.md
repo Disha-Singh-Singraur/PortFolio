@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Interactive Developer Portfolio 🚀
 
-## Getting Started
+A premium, highly interactive, and visually stunning developer portfolio built using **Next.js**, **React 19**, and **Tailwind CSS v4**.
 
-First, run the development server:
+🔗 **Live Demo**: [disha-singh-singraur.vercel.app](https://disha-singh-singraur.vercel.app)
 
+---
+
+## ✨ Features & Interactions
+
+This portfolio goes beyond a static page, implementing physics-based animations, canvas effects, and fluid user interactions to deliver a premium user experience:
+
+*   **Interactive Draggable Rope**: A physics-based rope implementation that users can grab, drag, and swing with real-time feedback.
+*   **Hanging Projects Board**: Project cards styled to hang from the draggable rope, complete with canvas-drawn rope connectors and realistic swinging physics.
+*   **Smooth Cursor Trail**: A custom, high-performance canvas-based mouse trail that follows the user's cursor across the screen.
+*   **Cool Mode Toggle**: Interactive UI feature to toggle specialized visual states or playful modes.
+*   **Aesthetic Skills Showcase**: A beautifully grouped and visually clean listing of technologies and skills.
+*   **Polished Contact Form**: A structured, elegant contact section to get in touch.
+
+---
+
+## 🛠️ Tech Stack
+
+*   **Framework**: [Next.js](https://nextjs.org/) (App Router)
+*   **Core Library**: [React 19](https://react.dev/)
+*   **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+*   **Language**: [TypeScript](https://www.typescriptlang.org/)
+*   **Animations**: Custom canvas-based physics and CSS transitions for micro-animations.
+
+---
+
+## 🚀 Getting Started
+
+To run this project locally, follow these steps:
+
+### 1. Clone the repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/your-username/my-portfolio.git
+cd my-portfolio
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Install dependencies
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Run the development server
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the local build.
 
-## Learn More
+### 4. Build for production
+```bash
+npm run build
+npm run start
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📄 License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is open-source and available under the [MIT License](LICENSE).
