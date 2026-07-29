@@ -5,26 +5,41 @@ import { createPortal } from "react-dom";
 import Image from "next/image";
 
 const projectSparkles = [
+  // Left side sparkles
   { top: "8%", left: "4%", size: 24, color: "text-pink-400", delay: "0s", duration: "5s" },
   { top: "12%", left: "14%", size: 18, color: "text-rose-400", delay: "0.8s", duration: "6.2s" },
   { top: "15%", left: "22%", size: 16, color: "text-pink-300", delay: "0.3s", duration: "5.5s" },
+  { top: "38%", left: "7%", size: 20, color: "text-pink-400", delay: "0.4s", duration: "6.0s" },
+  { top: "54%", left: "15%", size: 24, color: "text-pink-400", delay: "0.9s", duration: "5.4s" },
+  { top: "58%", left: "8%", size: 20, color: "text-rose-400", delay: "0.5s", duration: "6s" },
+  { top: "72%", left: "5%", size: 22, color: "text-pink-400", delay: "2.7s", duration: "5.8s" },
+  { top: "85%", left: "28%", size: 24, color: "text-rose-400", delay: "3.1s", duration: "7.8s" },
+  { top: "94%", left: "12%", size: 18, color: "text-rose-300", delay: "1.3s", duration: "5.7s" },
+
+  // Center / Middle sparkles
+  { top: "18%", left: "42%", size: 20, color: "text-rose-400", delay: "0.5s", duration: "5.6s" },
+  { top: "24%", left: "58%", size: 26, color: "text-pink-300", delay: "2.1s", duration: "7.1s" },
+  { top: "30%", left: "48%", size: 18, color: "text-fuchsia-400", delay: "1.0s", duration: "6.3s" },
+  { top: "36%", left: "36%", size: 24, color: "text-pink-400", delay: "0.3s", duration: "5.9s" },
+  { top: "42%", left: "64%", size: 20, color: "text-rose-300", delay: "1.7s", duration: "6.7s" },
+  { top: "48%", left: "38%", size: 22, color: "text-pink-500", delay: "2.5s", duration: "7.2s" },
+  { top: "52%", left: "52%", size: 28, color: "text-pink-400", delay: "0.2s", duration: "6.0s" },
+  { top: "60%", left: "45%", size: 18, color: "text-rose-400", delay: "1.9s", duration: "5.8s" },
+  { top: "65%", left: "62%", size: 18, color: "text-pink-300", delay: "1.0s", duration: "6.0s" },
+  { top: "70%", left: "40%", size: 24, color: "text-fuchsia-300", delay: "2.8s", duration: "7.4s" },
+  { top: "76%", left: "55%", size: 20, color: "text-pink-400", delay: "0.6s", duration: "6.2s" },
+  { top: "82%", left: "46%", size: 22, color: "text-rose-300", delay: "1.4s", duration: "5.5s" },
+  { top: "88%", left: "68%", size: 22, color: "text-pink-400", delay: "0.6s", duration: "6.4s" },
+  { top: "90%", left: "50%", size: 20, color: "text-pink-500", delay: "0.7s", duration: "6.5s" },
+
+  // Right side sparkles
   { top: "18%", left: "80%", size: 26, color: "text-pink-400", delay: "2.0s", duration: "6.8s" },
   { top: "25%", left: "90%", size: 22, color: "text-fuchsia-400", delay: "1.4s", duration: "5.8s" },
   { top: "32%", left: "93%", size: 30, color: "text-pink-300", delay: "1.5s", duration: "7.5s" },
-  { top: "38%", left: "7%", size: 20, color: "text-pink-400", delay: "0.4s", duration: "6.0s" },
   { top: "45%", left: "95%", size: 18, color: "text-rose-300", delay: "1.1s", duration: "6.8s" },
-  { top: "48%", left: "38%", size: 22, color: "text-pink-500", delay: "2.5s", duration: "7.2s" },
-  { top: "54%", left: "15%", size: 24, color: "text-pink-400", delay: "0.9s", duration: "5.4s" },
-  { top: "58%", left: "8%", size: 20, color: "text-rose-400", delay: "0.5s", duration: "6s" },
-  { top: "65%", left: "62%", size: 18, color: "text-pink-300", delay: "1.0s", duration: "6.0s" },
-  { top: "72%", left: "5%", size: 22, color: "text-pink-400", delay: "2.7s", duration: "5.8s" },
   { top: "75%", left: "85%", size: 20, color: "text-fuchsia-300", delay: "1.8s", duration: "6.6s" },
   { top: "78%", left: "75%", size: 18, color: "text-pink-400", delay: "1.4s", duration: "5.2s" },
   { top: "82%", left: "91%", size: 28, color: "text-pink-300", delay: "2.2s", duration: "8.2s" },
-  { top: "85%", left: "28%", size: 24, color: "text-rose-400", delay: "3.1s", duration: "7.8s" },
-  { top: "88%", left: "68%", size: 22, color: "text-pink-400", delay: "0.6s", duration: "6.4s" },
-  { top: "90%", left: "50%", size: 20, color: "text-pink-500", delay: "0.7s", duration: "6.5s" },
-  { top: "94%", left: "12%", size: 18, color: "text-rose-300", delay: "1.3s", duration: "5.7s" },
   { top: "96%", left: "84%", size: 24, color: "text-pink-400", delay: "2.1s", duration: "7.0s" },
 ];
 
