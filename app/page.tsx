@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Skills from "../components/Skills";
 import ProjectsHanging from "../components/ProjectsHanging";
 import Contact from "../components/Contact";
+import CodingProfiles from "../components/CodingProfiles";
 import CoolModeToggle from "../components/CoolModeToggle";
 
 export default function Page() {
@@ -274,6 +275,9 @@ export default function Page() {
 
       {/* Projects Section — Hanging Gallery */}
       <ProjectsHanging />
+
+      {/* Coding Profiles Section — LeetCode & GeeksforGeeks */}
+      <CodingProfiles />
 
       {/* Contact Me Section */}
       <Contact />
