@@ -142,7 +142,7 @@ export default function CodingProfiles() {
       <div className="max-w-6xl mx-auto relative z-10">
         
         {/* 2 Column Layout matching About Me Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           
           {/* Left Column: Title & Subtitle */}
           <div className="space-y-6">
@@ -150,11 +150,11 @@ export default function CodingProfiles() {
               Problem Solving
             </div>
             
-            <h2 className="text-6xl md:text-8xl font-black text-black uppercase tracking-tight leading-none">
+            <h2 className="text-5xl sm:text-6xl lg:text-8xl font-black text-black uppercase tracking-tight leading-none">
               LeetCode <br /> Profile
             </h2>
             
-            <p className="font-mono text-lg text-gray-700 max-w-md leading-relaxed">
+            <p className="font-mono text-base md:text-lg text-gray-700 max-w-md leading-relaxed">
               Consistently solving Data Structures, Algorithms, and technical problem-solving challenges with clean, efficient code.
             </p>
           </div>
@@ -170,7 +170,7 @@ export default function CodingProfiles() {
             {/* Main Card with Vibrant Pink Shadow & Shiny Sweep Effect */}
             <div
               ref={cardRef}
-              className="bg-white border-4 border-black p-8 md:p-12 shadow-[12px_12px_0px_0px_#FF3B92] relative space-y-6 overflow-hidden group"
+              className="bg-white border-4 border-black p-6 sm:p-8 lg:p-8 xl:p-12 shadow-[8px_8px_0px_0px_#FF3B92] sm:shadow-[12px_12px_0px_0px_#FF3B92] relative space-y-6 overflow-hidden group"
             >
               {/* Sharp Neo-Brutalist Glint Sweep Overlay */}
               <style>{`
@@ -210,7 +210,7 @@ export default function CodingProfiles() {
               </div>
 
               {/* LEETCODE CIRCULAR PROGRESS GAUGE */}
-              <div className="bg-[#FFFDEE] border-4 border-black p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] flex flex-col sm:flex-row items-center justify-around gap-6">
+              <div className="bg-[#FFFDEE] border-4 border-black p-4 sm:p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] flex flex-col sm:flex-row lg:flex-col xl:flex-row items-center justify-around gap-6">
                 
                 {/* SVG Circle Ring */}
                 <div className="relative w-44 h-44 flex items-center justify-center shrink-0">
@@ -270,8 +270,8 @@ export default function CodingProfiles() {
                 </div>
 
                 {/* Difficulty Breakdown List */}
-                <div className="w-full sm:w-auto space-y-3 font-mono">
-                  <div className="flex items-center justify-between sm:justify-start gap-4 bg-emerald-50 border-2 border-black px-3.5 py-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                <div className="w-full sm:w-auto lg:w-full xl:w-auto space-y-3 font-mono">
+                  <div className="flex items-center justify-between gap-4 bg-emerald-50 border-2 border-black px-3.5 py-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                     <div className="flex items-center gap-2">
                       <span className="w-3 h-3 rounded-full bg-emerald-500 border border-black" />
                       <span className="text-xs font-bold text-black uppercase">Easy</span>
@@ -279,7 +279,7 @@ export default function CodingProfiles() {
                     <span className="text-sm font-black text-emerald-800">{lcStats.easySolved}</span>
                   </div>
 
-                  <div className="flex items-center justify-between sm:justify-start gap-4 bg-pink-50 border-2 border-black px-3.5 py-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                  <div className="flex items-center justify-between gap-4 bg-pink-50 border-2 border-black px-3.5 py-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                     <div className="flex items-center gap-2">
                       <span className="w-3 h-3 rounded-full bg-pink-500 border border-black" />
                       <span className="text-xs font-bold text-black uppercase">Medium</span>
@@ -287,7 +287,7 @@ export default function CodingProfiles() {
                     <span className="text-sm font-black text-pink-800">{lcStats.mediumSolved}</span>
                   </div>
 
-                  <div className="flex items-center justify-between sm:justify-start gap-4 bg-rose-50 border-2 border-black px-3.5 py-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                  <div className="flex items-center justify-between gap-4 bg-rose-50 border-2 border-black px-3.5 py-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                     <div className="flex items-center gap-2">
                       <span className="w-3 h-3 rounded-full bg-rose-700 border border-black" />
                       <span className="text-xs font-bold text-black uppercase">Hard</span>
